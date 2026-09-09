@@ -36,6 +36,7 @@ async function spinReels() {
 
   spinBtn.disabled = true;
   betEl.disabled = true;
+  reels.forEach(reel => reel.classList.add("spinning"));
 
   balance -= bet;
   updateBalance();
@@ -59,6 +60,7 @@ async function spinReels() {
   reels.forEach((reel, index) => {
     reel.textContent = result[index];
   });
+  reels.forEach(reel => reel.classList.remove("spinning"));
 
   let multiplier = 0;
 
@@ -84,6 +86,19 @@ async function spinReels() {
   const win = bet * multiplier;
 
   if (win > 0) {
+    document.querySelector(".machine").classList.add("win");
+
+setTimeout(() => {
+  document.querySelector(".machine").classList.remove("win");
+}, 1600);
+
+if (multiplier === 20) {
+  document.querySelector(".machine").classList.add("jackpot");
+
+  setTimeout(() => {
+    document.querySelector(".machine").classList.remove("jackpot");
+  }, 2200);
+}
     balance += win;
     statusEl.textContent =
       `🎉 RIZZLE WIN! +${win.toLocaleString()} COINS 🎉`;
