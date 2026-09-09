@@ -434,7 +434,13 @@ const d2 = bjDeck.pop();
 
 bjPlayer = [p1, p2];
 bjDealer = [d1, d2];
+bjPlaying = true;
 
+bjDeal.disabled = true;
+bjHit.disabled = false;
+bjStand.disabled = false;
+bjBet.disabled = true;
+  
   showBlackjack(true);
 
   bjStatus.textContent = "Hit or stand?";
