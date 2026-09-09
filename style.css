@@ -350,3 +350,51 @@ footer p {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Rizzle Reels animations */
+
+.reel.spinning {
+  animation: rizzleSpin 0.18s linear infinite;
+  filter: blur(2px);
+}
+
+@keyframes rizzleSpin {
+  0% {
+    transform: translateY(-5px) scale(0.98);
+  }
+  50% {
+    transform: translateY(5px) scale(1.02);
+  }
+  100% {
+    transform: translateY(-5px) scale(0.98);
+  }
+}
+
+.machine.win {
+  animation: rizzleWin 0.5s ease-in-out 3;
+}
+
+@keyframes rizzleWin {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 55px rgba(255, 215, 0, 0.95);
+    transform: scale(1.01);
+  }
+}
+
+.machine.jackpot {
+  animation: jackpot 0.35s ease-in-out 6;
+}
+
+@keyframes jackpot {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.6);
+    transform: scale(1.02);
+  }
+}
