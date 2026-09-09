@@ -396,5 +396,32 @@ footer p {
   50% {
     filter: brightness(1.6);
     transform: scale(1.02);
+    
+    
   }
 }
+/* Sound button */
+
+.mute-btn {
+  border: 1px solid #ffd54a;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #160820;
+  color: #ffd54a;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.mute-btn:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 620px) {
+  .mute-btn {
+    padding: 8px 10px;
+    font-size: 9px;
+  }
+}
+r
