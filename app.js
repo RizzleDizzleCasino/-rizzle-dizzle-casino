@@ -10,6 +10,12 @@ const spinBtn = document.getElementById("spin");
 const betEl = document.getElementById("bet");
 const muteBtn = document.getElementById("mute");
 const machineEl = document.querySelector(".machine");
+const dailyBonusBtn = document.getElementById("dailyBonus");
+const dailyBonusStatus = document.getElementById("dailyBonusStatus");
+
+const DAILY_BONUS = 1000;
+const BONUS_WAIT = 24 * 60 * 60 * 1000;
+
 
 const reels = [
   document.getElementById("r1"),
@@ -219,7 +225,70 @@ if (muteBtn) {
     }
   });
 }
+function updateDailyBonus() {
+  if (!dailyBonusBtn || !dailyBonusStatus) return;
 
+  const lastClaim = Number(
+    localStorage.getItem("rizzleDailyBonus")
+  ) || 0;
+
+  const timeLeft = BONUS_WAIT - (Date.now() - lastClaim);
+
+  if (timeLeft <= 0) {
+    dailyBonusBtn.disabled = false;
+    dailyBonusBtn.textContent = "🎁 CLAIM DAILY 1,000 COINS";
+    dailyBonusStatus.textContent = "Your daily bonus is ready!";
+    return;
+  }
+
+  dailyBonusBtn.disabled = true;
+
+  const hours = Math.floor(timeLeft / 3600000);
+  const minutes = Math.floor(
+    (timeLeft % 3600000) / 60000
+  );
+
+  dailyBonusBtn.textContent = "🎁 DAILY BONUS CLAIMED";
+  dailyBonusStatus.textContent =
+    `Next bonus in ${hours}h ${minutes}m`;
+}
+
+if (dailyBonusBtn) {
+  dailyBonusBtn.addEventListener("click", async () => {
+    const lastClaim = Number(
+      localStorage.getItem("rizzleDailyBonus")
+    ) || 0;
+
+    if (Date.now() - lastClaim < BONUS_WAIT) {
+      updateDailyBonus();
+      return;
+    }
+
+    balance += DAILY_BONUS;
+
+    localStorage.setItem(
+      "rizzleDailyBonus",
+      Date.now().toString()
+    );
+
+    updateBalance();
+    updateDailyBonus();
+
+    statusEl.textContent =
+      "🎁 DAILY BONUS! +1,000 RIZZLE COINS 🎉";
+
+    await unlockAudio();
+    playTone(660, 0.2, 0.1);
+
+    setTimeout(() => {
+      playTone(880, 0.3, 0.1);
+    }, 180);
+  });
+}
+
+updateDailyBonus();
+
+setInterval(updateDailyBonus, 60000);
 spinBtn.addEventListener("click", spinReels);
 
 updateBalance();
