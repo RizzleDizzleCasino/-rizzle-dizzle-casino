@@ -427,22 +427,13 @@ function dealBJ() {
 
   bjDeck = makeDeck();
 
-  bjPlayer = [
-    bjDeck.pop(),
-    bjDeck.pop()
-  ];
+const p1 = bjDeck.pop();
+const p2 = bjDeck.pop();
+const d1 = bjDeck.pop();
+const d2 = bjDeck.pop();
 
-  bjDealer = [
-    bjDeck.pop(),
-    bjDeck.pop()
-  ];
-
-  bjPlaying = true;
-
-  bjDeal.disabled = true;
-  bjHit.disabled = false;
-  bjStand.disabled = false;
-  bjBet.disabled = true;
+bjPlayer = [p1, p2];
+bjDealer = [d1, d2];
 
   showBlackjack(true);
 
