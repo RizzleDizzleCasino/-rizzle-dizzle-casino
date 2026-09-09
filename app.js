@@ -60,6 +60,13 @@ function sleep(ms) {
 
 async function spinReels() {
   const bet = Number(betEl.value);
+  if (!audioContext) {
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+}
+
+if (audioContext.state === "suspended") {
+  audioContext.resume();
+}
 
   if (balance < bet) {
     statusEl.textContent = "Not enough Rizzle Coins!";
