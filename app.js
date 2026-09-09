@@ -1,43 +1,15 @@
-oconst symbols = ["7️⃣", "🍒", "🔔", "💎", "🍋", "⭐"];
-let soundOn = true;
-let audioContext;
-
-const muteBtn = document.getElementById("mute");
-
-function playTone(frequency, duration, volume = 0.08) {
-  if (!soundOn) return;
-
-  audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
-
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-
-  oscillator.connect(gain);
-  gain.connect(audioContext.destination);
-
-  oscillator.frequency.value = frequency;
-  oscillator.type = "sine";
-  gain.gain.value = volume;
-
-  oscillator.start();
-  gain.gain.exponentialRampToValueAtTime(
-    0.001,
-    audioContext.currentTime + duration
-  );
-  oscillator.stop(audioContext.currentTime + duration);
-}
-
-muteBtn.addEventListener("click", () => {
-  soundOn = !soundOn;
-  muteBtn.textContent = soundOn ? "🔊 SOUND ON" : "🔇 SOUND OFF";
-});
+const symbols = ["7️⃣", "🍒", "🔔", "💎", "🍋", "⭐"];
 
 let balance = Number(localStorage.getItem("rizzleBalance")) || 10000;
+let soundOn = localStorage.getItem("rizzleSound") !== "off";
+let audioContext = null;
 
 const balanceEl = document.getElementById("balance");
 const statusEl = document.getElementById("status");
 const spinBtn = document.getElementById("spin");
 const betEl = document.getElementById("bet");
+const muteBtn = document.getElementById("mute");
+const machineEl = document.querySelector(".machine");
 
 const reels = [
   document.getElementById("r1"),
@@ -50,32 +22,95 @@ function updateBalance() {
   localStorage.setItem("rizzleBalance", balance);
 }
 
+function updateSoundButton() {
+  if (!muteBtn) return;
+
+  muteBtn.textContent = soundOn
+    ? "🔊 SOUND ON"
+    : "🔇 SOUND OFF";
+}
+
+async function unlockAudio() {
+  if (!soundOn) return;
+
+  try {
+    if (!audioContext) {
+      audioContext = new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+    }
+
+    if (audioContext.state === "suspended") {
+      await audioContext.resume();
+    }
+  } catch (error) {
+    console.log("Audio unavailable:", error);
+  }
+}
+
+function playTone(frequency, duration, volume = 0.08) {
+  if (!soundOn || !audioContext) return;
+
+  try {
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.type = "sine";
+    oscillator.frequency.value = frequency;
+
+    gain.gain.setValueAtTime(
+      volume,
+      audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.001,
+      audioContext.currentTime + duration
+    );
+
+    oscillator.start();
+    oscillator.stop(
+      audioContext.currentTime + duration
+    );
+  } catch (error) {
+    console.log("Sound error:", error);
+  }
+}
+
 function randomSymbol() {
-  return symbols[Math.floor(Math.random() * symbols.length)];
+  return symbols[
+    Math.floor(Math.random() * symbols.length)
+  ];
 }
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve =>
+    setTimeout(resolve, ms)
+  );
 }
 
 async function spinReels() {
   const bet = Number(betEl.value);
-  if (!audioContext) {
-  audioContext = new (window.AudioContext || window.webkitAudioContext)();
-}
 
-if (audioContext.state === "suspended") {
-  audioContext.resume();
-}
+  await unlockAudio();
 
   if (balance < bet) {
-    statusEl.textContent = "Not enough Rizzle Coins!";
+    statusEl.textContent =
+      "Not enough Rizzle Coins!";
+    playTone(100, 0.2, 0.05);
     return;
   }
 
   spinBtn.disabled = true;
   betEl.disabled = true;
-  reels.forEach(reel => reel.classList.add("spinning"));
+
+  reels.forEach(reel =>
+    reel.classList.add("spinning")
+  );
 
   balance -= bet;
   updateBalance();
@@ -99,8 +134,8 @@ if (audioContext.state === "suspended") {
 
   reels.forEach((reel, index) => {
     reel.textContent = result[index];
+    reel.classList.remove("spinning");
   });
-  reels.forEach(reel => reel.classList.remove("spinning"));
 
   let multiplier = 0;
 
@@ -126,28 +161,40 @@ if (audioContext.state === "suspended") {
   const win = bet * multiplier;
 
   if (win > 0) {
-    playTone(multiplier === 20 ? 880 : 520, 0.35, 0.12);
-    document.querySelector(".machine").classList.add("win");
+    machineEl.classList.add("win");
 
-setTimeout(() => {
-  document.querySelector(".machine").classList.remove("win");
-}, 1600);
+    setTimeout(() => {
+      machineEl.classList.remove("win");
+    }, 1600);
 
-if (multiplier === 20) {
-  document.querySelector(".machine").classList.add("jackpot");
+    if (multiplier === 20) {
+      machineEl.classList.add("jackpot");
 
-  setTimeout(() => {
-    document.querySelector(".machine").classList.remove("jackpot");
-  }, 2200);
-}
+      setTimeout(() => {
+        machineEl.classList.remove("jackpot");
+      }, 2200);
+    }
+
     balance += win;
+
     statusEl.textContent =
       `🎉 RIZZLE WIN! +${win.toLocaleString()} COINS 🎉`;
+
+    if (multiplier === 20) {
+      playTone(880, 0.45, 0.12);
+
+      setTimeout(() => {
+        playTone(1100, 0.35, 0.1);
+      }, 180);
+    } else {
+      playTone(520, 0.35, 0.12);
+    }
   } else {
-    statusEl.textContent = "No win — give it another Rizzle! 🎰";
+    statusEl.textContent =
+      "No win — give it another Rizzle! 🎰";
+
     playTone(120, 0.18, 0.05);
   }
-  playTone(120, 0.18, 0.05);
 
   updateBalance();
 
@@ -155,6 +202,25 @@ if (multiplier === 20) {
   betEl.disabled = false;
 }
 
+if (muteBtn) {
+  muteBtn.addEventListener("click", async () => {
+    soundOn = !soundOn;
+
+    localStorage.setItem(
+      "rizzleSound",
+      soundOn ? "on" : "off"
+    );
+
+    updateSoundButton();
+
+    if (soundOn) {
+      await unlockAudio();
+      playTone(440, 0.12, 0.06);
+    }
+  });
+}
+
 spinBtn.addEventListener("click", spinReels);
 
 updateBalance();
+updateSoundButton();
