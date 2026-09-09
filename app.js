@@ -1,4 +1,4 @@
-const symbols = ["7️⃣", "🍒", "🔔", "💎", "🍋", "⭐"];
+oconst symbols = ["7️⃣", "🍒", "🔔", "💎", "🍋", "⭐"];
 let soundOn = true;
 let audioContext;
 
@@ -138,6 +138,7 @@ if (multiplier === 20) {
       `🎉 RIZZLE WIN! +${win.toLocaleString()} COINS 🎉`;
   } else {
     statusEl.textContent = "No win — give it another Rizzle! 🎰";
+    playTone(120, 0.18, 0.05);
   }
   playTone(120, 0.18, 0.05);
 
