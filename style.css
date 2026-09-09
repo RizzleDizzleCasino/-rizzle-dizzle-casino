@@ -425,3 +425,39 @@ footer p {
   }
 }
 r
+
+
+/* Daily bonus */
+
+.daily-bonus {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+#dailyBonus {
+  width: 100%;
+  border: 1px solid #ffd54a;
+  border-radius: 14px;
+  padding: 14px;
+  background: linear-gradient(180deg, #4d2100, #241000);
+  color: #ffd54a;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+#dailyBonus:active {
+  transform: scale(0.98);
+}
+
+#dailyBonus:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+#dailyBonusStatus {
+  color: #cdbed6;
+  font-size: 11px;
+}
