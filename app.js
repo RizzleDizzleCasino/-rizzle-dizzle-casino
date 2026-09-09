@@ -296,26 +296,25 @@ updateSoundButton();
 
 /* Rizzle Blackjack */
 
-const blackjackCard = document.getElementById("blackjackCard");
-const dealerHandEl = document.getElementById("dealerHand");
-const playerHandEl = document.getElementById("playerHand");
-const dealerScoreEl = document.getElementById("dealerScore");
-const playerScoreEl = document.getElementById("playerScore");
-const blackjackStatusEl = document.getElementById("blackjackStatus");
+const bjDealerHand = document.getElementById("dealerHand");
+const bjPlayerHand = document.getElementById("playerHand");
+const bjDealerScore = document.getElementById("dealerScore");
+const bjPlayerScore = document.getElementById("playerScore");
+const bjStatus = document.getElementById("blackjackStatus");
+const bjBet = document.getElementById("blackjackBet");
 
-const blackjackBetEl = document.getElementById("blackjackBet");
-const dealBlackjackBtn = document.getElementById("dealBlackjack");
-const hitBlackjackBtn = document.getElementById("hitBlackjack");
-const standBlackjackBtn = document.getElementById("standBlackjack");
+const bjDeal = document.getElementById("dealBlackjack");
+const bjHit = document.getElementById("hitBlackjack");
+const bjStand = document.getElementById("standBlackjack");
 
-let blackjackDeck = [];
-let playerCards = [];
-let dealerCards = [];
-let blackjackBet = 0;
-let blackjackActive = false;
+let bjDeck = [];
+let bjPlayer = [];
+let bjDealer = [];
+let bjCurrentBet = 0;
+let bjPlaying = false;
 
-function createBlackjackDeck() {
-  const suits = ["♠", "♥", "♦", "♣"];
+function makeDeck() {
+  const suits = ["♠️", "♥️", "♦️", "♣️"];
   const ranks = [
     "A", "2", "3", "4", "5", "6", "7",
     "8", "9", "10", "J", "Q", "K"
@@ -323,37 +322,44 @@ function createBlackjackDeck() {
 
   const deck = [];
 
-  for (const suit of suits) {
-    for (const rank of ranks) {
-      deck.push({ rank, suit });
-    }
-  }
+  suits.forEach(suit => {
+    ranks.forEach(rank => {
+      deck.push({
+        rank: rank,
+        suit: suit
+      });
+    });
+  });
 
   for (let i = deck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
+
+    const temp = deck[i];
+    deck[i] = deck[j];
+    deck[j] = temp;
   }
 
   return deck;
 }
 
-function blackjackCardValue(card) {
-  if (["J", "Q", "K"].includes(card.rank)) return 10;
-  if (card.rank === "A") return 11;
-  return Number(card.rank);
-}
-
-function blackjackScore(cards) {
+function bjValue(cards) {
   let total = 0;
   let aces = 0;
 
-  for (const card of cards) {
-    total += blackjackCardValue(card);
-
+  cards.forEach(card => {
     if (card.rank === "A") {
+      total += 11;
       aces++;
+    } else if (
+      card.rank === "K" ||
+      card.rank === "Q" ||
+      card.rank === "J"
+    ) {
+      total += 10;
+    } else {
+      total += Number(card.rank);
     }
-  }
+  });
 
   while (total > 21 && aces > 0) {
     total -= 10;
@@ -363,196 +369,184 @@ function blackjackScore(cards) {
   return total;
 }
 
-function displayBlackjackCard(card) {
-  const red = card.suit === "♥" || card.suit === "♦";
-
-  return `<span style="color:${red ? "#ff4d5a" : "#ffffff"}">
-    ${card.rank}${card.suit}
-  </span>`;
+function showCard(card) {
+  return card.rank + card.suit;
 }
 
-function updateBlackjackDisplay(hideDealer = true) {
-  playerHandEl.innerHTML =
-    playerCards.map(displayBlackjackCard).join(" ");
+function showBlackjack(hideDealer) {
+  bjPlayerHand.textContent =
+    bjPlayer.map(showCard).join("  ");
 
-  playerScoreEl.textContent =
-    `Score: ${blackjackScore(playerCards)}`;
+  bjPlayerScore.textContent =
+    "Score: " + bjValue(bjPlayer);
 
-  if (hideDealer && blackjackActive) {
-    dealerHandEl.innerHTML =
-      displayBlackjackCard(dealerCards[0]) + " 🂠";
+  if (hideDealer && bjPlaying) {
+    bjDealerHand.textContent =
+      showCard(bjDealer[0]) + "  🂠";
 
-    dealerScoreEl.textContent = "Score: ?";
+    bjDealerScore.textContent = "Score: ?";
   } else {
-    dealerHandEl.innerHTML =
-      dealerCards.map(displayBlackjackCard).join(" ");
+    bjDealerHand.textContent =
+      bjDealer.map(showCard).join("  ");
 
-    dealerScoreEl.textContent =
-      `Score: ${blackjackScore(dealerCards)}`;
+    bjDealerScore.textContent =
+      "Score: " + bjValue(bjDealer);
   }
 }
 
-function endBlackjack(message, payout = 0) {
-  blackjackActive = false;
+function finishBlackjack(message, payout) {
+  bjPlaying = false;
 
-  hitBlackjackBtn.disabled = true;
-  standBlackjackBtn.disabled = true;
-  dealBlackjackBtn.disabled = false;
-  blackjackBetEl.disabled = false;
+  bjHit.disabled = true;
+  bjStand.disabled = true;
+  bjDeal.disabled = false;
+  bjBet.disabled = false;
 
   if (payout > 0) {
     balance += payout;
     updateBalance();
   }
 
-  updateBlackjackDisplay(false);
-  blackjackStatusEl.textContent = message;
+  showBlackjack(false);
+  bjStatus.textContent = message;
 }
 
-async function dealBlackjack() {
-  if (blackjackActive) return;
+function dealBJ() {
+  if (bjPlaying) return;
 
-  blackjackBet = Number(blackjackBetEl.value);
+  bjCurrentBet = Number(bjBet.value);
 
-  if (balance < blackjackBet) {
-    blackjackStatusEl.textContent =
+  if (balance < bjCurrentBet) {
+    bjStatus.textContent =
       "Not enough Rizzle Coins!";
     return;
   }
 
-  await unlockAudio();
-
-  balance -= blackjackBet;
+  balance -= bjCurrentBet;
   updateBalance();
 
-  blackjackDeck = createBlackjackDeck();
+  bjDeck = makeDeck();
 
-  playerCards = [
-    blackjackDeck.pop(),
-    blackjackDeck.pop()
+  bjPlayer = [
+    bjDeck.pop(),
+    bjDeck.pop()
   ];
 
-  dealerCards = [
-    blackjackDeck.pop(),
-    blackjackDeck.pop()
+  bjDealer = [
+    bjDeck.pop(),
+    bjDeck.pop()
   ];
 
-  blackjackActive = true;
+  bjPlaying = true;
 
-  dealBlackjackBtn.disabled = true;
-  hitBlackjackBtn.disabled = false;
-  standBlackjackBtn.disabled = false;
-  blackjackBetEl.disabled = true;
+  bjDeal.disabled = true;
+  bjHit.disabled = false;
+  bjStand.disabled = false;
+  bjBet.disabled = true;
 
-  updateBlackjackDisplay(true);
+  showBlackjack(true);
 
-  blackjackStatusEl.textContent =
-    "Hit or stand?";
+  bjStatus.textContent = "Hit or stand?";
 
-  playTone(300, 0.12, 0.06);
+  const playerTotal = bjValue(bjPlayer);
+  const dealerTotal = bjValue(bjDealer);
 
-  const playerScore = blackjackScore(playerCards);
-  const dealerScore = blackjackScore(dealerCards);
-
-  if (playerScore === 21 && dealerScore === 21) {
-    endBlackjack(
+  if (playerTotal === 21 && dealerTotal === 21) {
+    finishBlackjack(
       "Push — both have Blackjack.",
-      blackjackBet
+      bjCurrentBet
     );
-  } else if (playerScore === 21) {
-    endBlackjack(
-      `🃏 BLACKJACK! +${Math.floor(blackjackBet * 2.5)} COINS`,
-      Math.floor(blackjackBet * 2.5)
-    );
+  } else if (playerTotal === 21) {
+    const payout =
+      Math.floor(bjCurrentBet * 2.5);
 
-    playTone(880, 0.35, 0.1);
-  } else if (dealerScore === 21) {
-    endBlackjack("Dealer has Blackjack.");
+    finishBlackjack(
+      "🃏 BLACKJACK! +" +
+      payout +
+      " COINS",
+      payout
+    );
+  } else if (dealerTotal === 21) {
+    finishBlackjack(
+      "Dealer has Blackjack.",
+      0
+    );
   }
 }
 
-async function hitBlackjack() {
-  if (!blackjackActive) return;
+function hitBJ() {
+  if (!bjPlaying) return;
 
-  playerCards.push(blackjackDeck.pop());
+  bjPlayer.push(bjDeck.pop());
 
-  updateBlackjackDisplay(true);
+  showBlackjack(true);
 
-  playTone(350, 0.1, 0.05);
+  const total = bjValue(bjPlayer);
 
-  const score = blackjackScore(playerCards);
-
-  if (score > 21) {
-    endBlackjack("Bust — dealer wins.");
-  } else if (score === 21) {
-    standBlackjack();
+  if (total > 21) {
+    finishBlackjack(
+      "Bust — dealer wins.",
+      0
+    );
+  } else if (total === 21) {
+    standBJ();
   }
 }
 
-async function standBlackjack() {
-  if (!blackjackActive) return;
+function standBJ() {
+  if (!bjPlaying) return;
 
-  while (blackjackScore(dealerCards) < 17) {
-    dealerCards.push(blackjackDeck.pop());
-    updateBlackjackDisplay(false);
-
-    playTone(250, 0.1, 0.05);
-    await sleep(350);
+  while (bjValue(bjDealer) < 17) {
+    bjDealer.push(bjDeck.pop());
   }
 
-  const playerScore = blackjackScore(playerCards);
-  const dealerScore = blackjackScore(dealerCards);
+  const playerTotal = bjValue(bjPlayer);
+  const dealerTotal = bjValue(bjDealer);
 
-  if (dealerScore > 21) {
-    endBlackjack(
-      `🎉 Dealer busts! +${blackjackBet * 2} COINS`,
-      blackjackBet * 2
+  if (dealerTotal > 21) {
+    finishBlackjack(
+      "🎉 Dealer busts! You win!",
+      bjCurrentBet * 2
     );
-
-    playTone(650, 0.3, 0.1);
-  } else if (playerScore > dealerScore) {
-    endBlackjack(
-      `🎉 You win! +${blackjackBet * 2} COINS`,
-      blackjackBet * 2
+  } else if (playerTotal > dealerTotal) {
+    finishBlackjack(
+      "🎉 You win!",
+      bjCurrentBet * 2
     );
-
-    playTone(650, 0.3, 0.1);
-  } else if (playerScore === dealerScore) {
-    endBlackjack(
-      "Push — your bet is returned.",
-      blackjackBet
+  } else if (playerTotal === dealerTotal) {
+    finishBlackjack(
+      "Push — bet returned.",
+      bjCurrentBet
     );
   } else {
-    endBlackjack("Dealer wins.");
+    finishBlackjack(
+      "Dealer wins.",
+      0
+    );
   }
 }
 
-if (dealBlackjackBtn) {
-  dealBlackjackBtn.addEventListener(
-    "click",
-    dealBlackjack
-  );
+if (bjDeal) {
+  bjDeal.addEventListener("click", dealBJ);
 }
 
-if (hitBlackjackBtn) {
-  hitBlackjackBtn.addEventListener(
-    "click",
-    hitBlackjack
-  );
+if (bjHit) {
+  bjHit.addEventListener("click", hitBJ);
 }
 
-if (standBlackjackBtn) {
-  standBlackjackBtn.addEventListener(
-    "click",
-    standBlackjack
-  );
+if (bjStand) {
+  bjStand.addEventListener("click", standBJ);
 }
 
-if (blackjackCard) {
-  blackjackCard.addEventListener("click", () => {
+const bjGameCard =
+  document.getElementById("blackjackCard");
+
+if (bjGameCard) {
+  bjGameCard.addEventListener("click", function () {
     document.getElementById("blackjack")
       .scrollIntoView({
         behavior: "smooth"
       });
   });
 }
+
