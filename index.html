@@ -54,7 +54,10 @@
 
 <section class="games">
   <article><b>🎰 Rizzle Reels</b><small>PLAYABLE NOW</small></article>
-  <article class="locked"><b>🃏 Rizzle Blackjack</b><small>COMING NEXT</small></article>
+  <article id="blackjackCard">
+  <b>🃏 Rizzle Blackjack</b>
+  <small>PLAYABLE NOW</small>
+</article>
   <article class="locked"><b>🎡 Rizzle Roulette</b><small>COMING NEXT</small></article>
   <article class="locked"><b>🏆 High Rollers</b><small>COMING NEXT</small></article>
 </section>
@@ -67,3 +70,44 @@
 <script src="app.js?v=2"></script>
 </body>
 </html>
+
+<section class="blackjack" id="blackjack">
+  <div class="blackjack-top">🃏 RIZZLE BLACKJACK 🃏</div>
+
+  <div class="bj-area">
+    <h3>DEALER</h3>
+    <div class="bj-hand" id="dealerHand">🂠 🂠</div>
+    <div class="bj-score" id="dealerScore">Score: ?</div>
+  </div>
+
+  <div class="bj-status" id="blackjackStatus">
+    Choose your bet and deal.
+  </div>
+
+  <div class="bj-area">
+    <h3>YOU</h3>
+    <div class="bj-hand" id="playerHand">🂠 🂠</div>
+    <div class="bj-score" id="playerScore">Score: 0</div>
+  </div>
+
+  <div class="bj-controls">
+    <label>BET
+      <select id="blackjackBet">
+        <option>10</option>
+        <option>25</option>
+        <option selected>50</option>
+        <option>100</option>
+        <option>250</option>
+        <option>500</option>
+      </select>
+    </label>
+
+    <button id="dealBlackjack" type="button">DEAL 🃏</button>
+    <button id="hitBlackjack" type="button" disabled>HIT</button>
+    <button id="standBlackjack" type="button" disabled>STAND</button>
+  </div>
+
+  <p class="bj-note">
+    Free-play only. Uses Rizzle Coins with no monetary value.
+  </p>
+</section>
