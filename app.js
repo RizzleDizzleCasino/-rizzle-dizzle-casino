@@ -1,4 +1,36 @@
 const symbols = ["7️⃣", "🍒", "🔔", "💎", "🍋", "⭐"];
+let soundOn = true;
+let audioContext;
+
+const muteBtn = document.getElementById("mute");
+
+function playTone(frequency, duration, volume = 0.08) {
+  if (!soundOn) return;
+
+  audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
+
+  oscillator.frequency.value = frequency;
+  oscillator.type = "sine";
+  gain.gain.value = volume;
+
+  oscillator.start();
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    audioContext.currentTime + duration
+  );
+  oscillator.stop(audioContext.currentTime + duration);
+}
+
+muteBtn.addEventListener("click", () => {
+  soundOn = !soundOn;
+  muteBtn.textContent = soundOn ? "🔊 SOUND ON" : "🔇 SOUND OFF";
+});
 
 let balance = Number(localStorage.getItem("rizzleBalance")) || 10000;
 
@@ -42,6 +74,7 @@ async function spinReels() {
   updateBalance();
 
   statusEl.textContent = "RIZZLING... 🎰";
+  playTone(180, 0.12);
 
   for (let i = 0; i < 10; i++) {
     reels.forEach(reel => {
@@ -86,6 +119,7 @@ async function spinReels() {
   const win = bet * multiplier;
 
   if (win > 0) {
+    playTone(multiplier === 20 ? 880 : 520, 0.35, 0.12);
     document.querySelector(".machine").classList.add("win");
 
 setTimeout(() => {
@@ -105,6 +139,7 @@ if (multiplier === 20) {
   } else {
     statusEl.textContent = "No win — give it another Rizzle! 🎰";
   }
+  playTone(120, 0.18, 0.05);
 
   updateBalance();
 
