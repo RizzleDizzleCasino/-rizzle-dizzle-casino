@@ -293,3 +293,266 @@ spinBtn.addEventListener("click", spinReels);
 
 updateBalance();
 updateSoundButton();
+
+/* Rizzle Blackjack */
+
+const blackjackCard = document.getElementById("blackjackCard");
+const dealerHandEl = document.getElementById("dealerHand");
+const playerHandEl = document.getElementById("playerHand");
+const dealerScoreEl = document.getElementById("dealerScore");
+const playerScoreEl = document.getElementById("playerScore");
+const blackjackStatusEl = document.getElementById("blackjackStatus");
+
+const blackjackBetEl = document.getElementById("blackjackBet");
+const dealBlackjackBtn = document.getElementById("dealBlackjack");
+const hitBlackjackBtn = document.getElementById("hitBlackjack");
+const standBlackjackBtn = document.getElementById("standBlackjack");
+
+let blackjackDeck = [];
+let playerCards = [];
+let dealerCards = [];
+let blackjackBet = 0;
+let blackjackActive = false;
+
+function createBlackjackDeck() {
+  const suits = ["♠", "♥", "♦", "♣"];
+  const ranks = [
+    "A", "2", "3", "4", "5", "6", "7",
+    "8", "9", "10", "J", "Q", "K"
+  ];
+
+  const deck = [];
+
+  for (const suit of suits) {
+    for (const rank of ranks) {
+      deck.push({ rank, suit });
+    }
+  }
+
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+
+  return deck;
+}
+
+function blackjackCardValue(card) {
+  if (["J", "Q", "K"].includes(card.rank)) return 10;
+  if (card.rank === "A") return 11;
+  return Number(card.rank);
+}
+
+function blackjackScore(cards) {
+  let total = 0;
+  let aces = 0;
+
+  for (const card of cards) {
+    total += blackjackCardValue(card);
+
+    if (card.rank === "A") {
+      aces++;
+    }
+  }
+
+  while (total > 21 && aces > 0) {
+    total -= 10;
+    aces--;
+  }
+
+  return total;
+}
+
+function displayBlackjackCard(card) {
+  const red = card.suit === "♥" || card.suit === "♦";
+
+  return `<span style="color:${red ? "#ff4d5a" : "#ffffff"}">
+    ${card.rank}${card.suit}
+  </span>`;
+}
+
+function updateBlackjackDisplay(hideDealer = true) {
+  playerHandEl.innerHTML =
+    playerCards.map(displayBlackjackCard).join(" ");
+
+  playerScoreEl.textContent =
+    `Score: ${blackjackScore(playerCards)}`;
+
+  if (hideDealer && blackjackActive) {
+    dealerHandEl.innerHTML =
+      displayBlackjackCard(dealerCards[0]) + " 🂠";
+
+    dealerScoreEl.textContent = "Score: ?";
+  } else {
+    dealerHandEl.innerHTML =
+      dealerCards.map(displayBlackjackCard).join(" ");
+
+    dealerScoreEl.textContent =
+      `Score: ${blackjackScore(dealerCards)}`;
+  }
+}
+
+function endBlackjack(message, payout = 0) {
+  blackjackActive = false;
+
+  hitBlackjackBtn.disabled = true;
+  standBlackjackBtn.disabled = true;
+  dealBlackjackBtn.disabled = false;
+  blackjackBetEl.disabled = false;
+
+  if (payout > 0) {
+    balance += payout;
+    updateBalance();
+  }
+
+  updateBlackjackDisplay(false);
+  blackjackStatusEl.textContent = message;
+}
+
+async function dealBlackjack() {
+  if (blackjackActive) return;
+
+  blackjackBet = Number(blackjackBetEl.value);
+
+  if (balance < blackjackBet) {
+    blackjackStatusEl.textContent =
+      "Not enough Rizzle Coins!";
+    return;
+  }
+
+  await unlockAudio();
+
+  balance -= blackjackBet;
+  updateBalance();
+
+  blackjackDeck = createBlackjackDeck();
+
+  playerCards = [
+    blackjackDeck.pop(),
+    blackjackDeck.pop()
+  ];
+
+  dealerCards = [
+    blackjackDeck.pop(),
+    blackjackDeck.pop()
+  ];
+
+  blackjackActive = true;
+
+  dealBlackjackBtn.disabled = true;
+  hitBlackjackBtn.disabled = false;
+  standBlackjackBtn.disabled = false;
+  blackjackBetEl.disabled = true;
+
+  updateBlackjackDisplay(true);
+
+  blackjackStatusEl.textContent =
+    "Hit or stand?";
+
+  playTone(300, 0.12, 0.06);
+
+  const playerScore = blackjackScore(playerCards);
+  const dealerScore = blackjackScore(dealerCards);
+
+  if (playerScore === 21 && dealerScore === 21) {
+    endBlackjack(
+      "Push — both have Blackjack.",
+      blackjackBet
+    );
+  } else if (playerScore === 21) {
+    endBlackjack(
+      `🃏 BLACKJACK! +${Math.floor(blackjackBet * 2.5)} COINS`,
+      Math.floor(blackjackBet * 2.5)
+    );
+
+    playTone(880, 0.35, 0.1);
+  } else if (dealerScore === 21) {
+    endBlackjack("Dealer has Blackjack.");
+  }
+}
+
+async function hitBlackjack() {
+  if (!blackjackActive) return;
+
+  playerCards.push(blackjackDeck.pop());
+
+  updateBlackjackDisplay(true);
+
+  playTone(350, 0.1, 0.05);
+
+  const score = blackjackScore(playerCards);
+
+  if (score > 21) {
+    endBlackjack("Bust — dealer wins.");
+  } else if (score === 21) {
+    standBlackjack();
+  }
+}
+
+async function standBlackjack() {
+  if (!blackjackActive) return;
+
+  while (blackjackScore(dealerCards) < 17) {
+    dealerCards.push(blackjackDeck.pop());
+    updateBlackjackDisplay(false);
+
+    playTone(250, 0.1, 0.05);
+    await sleep(350);
+  }
+
+  const playerScore = blackjackScore(playerCards);
+  const dealerScore = blackjackScore(dealerCards);
+
+  if (dealerScore > 21) {
+    endBlackjack(
+      `🎉 Dealer busts! +${blackjackBet * 2} COINS`,
+      blackjackBet * 2
+    );
+
+    playTone(650, 0.3, 0.1);
+  } else if (playerScore > dealerScore) {
+    endBlackjack(
+      `🎉 You win! +${blackjackBet * 2} COINS`,
+      blackjackBet * 2
+    );
+
+    playTone(650, 0.3, 0.1);
+  } else if (playerScore === dealerScore) {
+    endBlackjack(
+      "Push — your bet is returned.",
+      blackjackBet
+    );
+  } else {
+    endBlackjack("Dealer wins.");
+  }
+}
+
+if (dealBlackjackBtn) {
+  dealBlackjackBtn.addEventListener(
+    "click",
+    dealBlackjack
+  );
+}
+
+if (hitBlackjackBtn) {
+  hitBlackjackBtn.addEventListener(
+    "click",
+    hitBlackjack
+  );
+}
+
+if (standBlackjackBtn) {
+  standBlackjackBtn.addEventListener(
+    "click",
+    standBlackjack
+  );
+}
+
+if (blackjackCard) {
+  blackjackCard.addEventListener("click", () => {
+    document.getElementById("blackjack")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+  });
+}
