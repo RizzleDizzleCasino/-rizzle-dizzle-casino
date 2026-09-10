@@ -10,6 +10,7 @@
   border-radius: 28px;
   background: linear-gradient(145deg, #31004c, #100019);
   box-shadow: 0 0 0 5px #5a3400, 0 0 30px rgba(255,183,0,.2);
+  overflow: hidden;
 }
 
 .blackjack-top {
@@ -28,18 +29,186 @@
   text-align: center;
 }
 
-.bj-area h3 { margin: 0 0 10px; color: #ffd54a; letter-spacing: 2px; }
-.bj-hand { min-height: 65px; display: grid; place-items: center; font-size: clamp(30px,9vw,52px); letter-spacing: 4px; }
-.bj-score { margin-top: 8px; color: #d9cde1; font-weight: 700; }
-.bj-status { padding: 13px; margin: 14px 0; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; background: rgba(0,0,0,.35); color: #fff4bf; text-align: center; font-weight: 800; }
-.bj-controls { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; align-items: end; }
-.bj-controls label { display: grid; gap: 6px; color: #d9cde1; font-size: 12px; font-weight: 800; }
-.bj-controls button { min-height: 50px; border: 0; border-radius: 14px; padding: 12px; background: linear-gradient(180deg,#ffef73,#ffb000); color: #240d00; font-weight: 900; font-size: 15px; }
-.bj-controls button:disabled { opacity: .4; }
-.bj-note { margin: 16px 0 0; color: #a995b4; text-align: center; font-size: 11px; }
-#blackjackCard { cursor: pointer; border-color: #ffd54a; }
+.bj-area h3 {
+  margin: 0 0 12px;
+  color: #ffd54a;
+  letter-spacing: 2px;
+}
+
+.bj-hand {
+  min-height: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 4px;
+  letter-spacing: 0;
+}
+
+.playing-card {
+  width: 72px;
+  height: 102px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  background: linear-gradient(180deg,#fff,#f2f2f2);
+  color: #111;
+  box-shadow: 0 5px 12px rgba(0,0,0,.42), inset 0 0 0 1px rgba(0,0,0,.08);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 800;
+}
+
+.playing-card.red {
+  color: #c00028;
+}
+
+.card-rank {
+  font-size: 27px;
+  line-height: 1;
+}
+
+.card-suit {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.card-back {
+  background:
+    repeating-linear-gradient(45deg,#5c148d 0 7px,#2c063f 7px 14px);
+  color: #ffd54a;
+  border-color: #ffd54a;
+  box-shadow: 0 5px 12px rgba(0,0,0,.42), inset 0 0 0 4px #180021;
+}
+
+.card-back span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 2px solid #ffd54a;
+  border-radius: 50%;
+  background: #1a0626;
+  font: 900 15px Arial,sans-serif;
+  letter-spacing: 1px;
+}
+
+.bj-score {
+  margin-top: 8px;
+  color: #d9cde1;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.bj-status {
+  padding: 13px;
+  margin: 14px 0;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  background: rgba(0,0,0,.35);
+  color: #fff4bf;
+  text-align: center;
+  font-weight: 800;
+  font-size: 17px;
+}
+
+.bj-controls {
+  display: grid;
+  grid-template-columns: 1.25fr repeat(3,1fr);
+  gap: 10px;
+  align-items: end;
+}
+
+.bj-controls label {
+  display: grid;
+  gap: 6px;
+  color: #d9cde1;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.bj-controls select {
+  height: 50px;
+  padding: 10px 12px;
+  font-size: 18px;
+}
+
+.bj-controls button {
+  min-height: 50px;
+  border: 0;
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(180deg,#ffef73,#ffb000);
+  color: #240d00;
+  font-weight: 900;
+  font-size: 15px;
+  box-shadow: 0 3px 0 #8b4b00;
+}
+
+.bj-controls button:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #8b4b00;
+}
+
+.bj-controls button:disabled {
+  opacity: .38;
+  filter: grayscale(.6);
+}
+
+.bj-note {
+  margin: 16px 0 0;
+  color: #a995b4;
+  text-align: center;
+  font-size: 11px;
+}
+
+#blackjackCard {
+  cursor: pointer;
+  border-color: #ffd54a;
+}
 
 @media (max-width:620px) {
-  .blackjack { padding: 14px; border-radius: 22px; }
-  .bj-controls { grid-template-columns: 1fr 1fr; }
+  .blackjack {
+    padding: 14px;
+    border-radius: 22px;
+  }
+
+  .bj-hand {
+    min-height: 96px;
+    gap: 8px;
+  }
+
+  .playing-card {
+    width: 58px;
+    height: 84px;
+    border-radius: 8px;
+  }
+
+  .card-rank { font-size: 22px; }
+  .card-suit { font-size: 25px; }
+
+  .card-back span {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+
+  .bj-controls {
+    grid-template-columns: repeat(3,1fr);
+  }
+
+  .bj-controls label {
+    grid-column: 1 / -1;
+  }
+
+  .bj-controls button {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px 6px;
+  }
 }
