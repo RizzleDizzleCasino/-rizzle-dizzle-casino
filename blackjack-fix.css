@@ -8,7 +8,9 @@
   padding: 20px;
   border: 3px solid #f5b900;
   border-radius: 28px;
-  background: linear-gradient(145deg, #31004c, #100019);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(118,0,188,.28), transparent 34%),
+    linear-gradient(145deg, #31004c, #100019);
   box-shadow: 0 0 0 5px #5a3400, 0 0 30px rgba(255,183,0,.2);
   overflow: hidden;
 }
@@ -18,7 +20,15 @@
   color: #ffd64f;
   font-size: clamp(22px,7vw,34px);
   font-weight: 900;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
+}
+
+.bj-rules {
+  margin: 0 auto 16px;
+  color: #cdbed6;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .bj-area {
@@ -27,6 +37,13 @@
   border-radius: 18px;
   background: rgba(0,0,0,.28);
   text-align: center;
+  border: 1px solid rgba(255,255,255,.06);
+}
+
+.dealer-area {
+  background:
+    radial-gradient(circle at 50% 15%, rgba(255,213,74,.08), transparent 45%),
+    rgba(0,0,0,.3);
 }
 
 .bj-area h3 {
@@ -43,7 +60,6 @@
   flex-wrap: wrap;
   gap: 10px;
   padding: 4px;
-  letter-spacing: 0;
 }
 
 .playing-card {
@@ -63,19 +79,9 @@
   font-weight: 800;
 }
 
-.playing-card.red {
-  color: #c00028;
-}
-
-.card-rank {
-  font-size: 27px;
-  line-height: 1;
-}
-
-.card-suit {
-  font-size: 30px;
-  line-height: 1;
-}
+.playing-card.red { color: #c00028; }
+.card-rank { font-size: 27px; line-height: 1; }
+.card-suit { font-size: 30px; line-height: 1; }
 
 .card-back {
   background:
@@ -118,7 +124,7 @@
 
 .bj-controls {
   display: grid;
-  grid-template-columns: 1.25fr repeat(3,1fr);
+  grid-template-columns: 1.3fr repeat(4,1fr);
   gap: 10px;
   align-items: end;
 }
@@ -146,8 +152,12 @@
   background: linear-gradient(180deg,#ffef73,#ffb000);
   color: #240d00;
   font-weight: 900;
-  font-size: 15px;
+  font-size: 14px;
   box-shadow: 0 3px 0 #8b4b00;
+}
+
+#doubleBlackjack {
+  background: linear-gradient(180deg,#ffe8a0,#e28a00);
 }
 
 .bj-controls button:active:not(:disabled) {
@@ -199,7 +209,7 @@
   }
 
   .bj-controls {
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(2,1fr);
   }
 
   .bj-controls label {
