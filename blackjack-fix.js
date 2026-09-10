@@ -25,7 +25,7 @@
   };
 
   function makeDeck() {
-    const suits = ['♠️', '♥️', '♦️', '♣️'];
+    const suits = ['♠', '♥', '♦', '♣'];
     const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
     const cards = [];
     for (const suit of suits) {
@@ -50,16 +50,24 @@
     return total;
   }
 
-  const cardText = card => `${card.rank}${card.suit}`;
+  function cardHTML(card) {
+    const red = card.suit === '♥' || card.suit === '♦';
+    return `<span class="playing-card${red ? ' red' : ''}"><span class="card-rank">${card.rank}</span><span class="card-suit">${card.suit}</span></span>`;
+  }
+
+  function hiddenCardHTML() {
+    return '<span class="playing-card card-back" aria-label="hidden card"><span>RD</span></span>';
+  }
 
   function render(hideDealer = true) {
-    playerHand.textContent = player.map(cardText).join('   ');
+    playerHand.innerHTML = player.map(cardHTML).join('');
     playerScore.textContent = `Score: ${value(player)}`;
+
     if (hideDealer && playing) {
-      dealerHand.textContent = `${cardText(dealer[0])}   🂠`;
+      dealerHand.innerHTML = cardHTML(dealer[0]) + hiddenCardHTML();
       dealerScore.textContent = 'Score: ?';
     } else {
-      dealerHand.textContent = dealer.map(cardText).join('   ');
+      dealerHand.innerHTML = dealer.map(cardHTML).join('');
       dealerScore.textContent = `Score: ${value(dealer)}`;
     }
   }
@@ -132,5 +140,7 @@
   hitBtn.addEventListener('click', e => { e.stopImmediatePropagation(); hit(); }, true);
   standBtn.addEventListener('click', e => { e.stopImmediatePropagation(); stand(); }, true);
 
+  dealerHand.innerHTML = hiddenCardHTML() + hiddenCardHTML();
+  playerHand.innerHTML = hiddenCardHTML() + hiddenCardHTML();
   status.textContent = 'Choose your bet and deal.';
 })();
