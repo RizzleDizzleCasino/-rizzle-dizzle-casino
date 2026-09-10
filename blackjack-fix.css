@@ -1,0 +1,45 @@
+#dailyBonusStatus {
+  color: #cdbed6;
+  font-size: 12px;
+}
+
+.blackjack {
+  margin: 20px auto 42px;
+  padding: 20px;
+  border: 3px solid #f5b900;
+  border-radius: 28px;
+  background: linear-gradient(145deg, #31004c, #100019);
+  box-shadow: 0 0 0 5px #5a3400, 0 0 30px rgba(255,183,0,.2);
+}
+
+.blackjack-top {
+  text-align: center;
+  color: #ffd64f;
+  font-size: clamp(22px,7vw,34px);
+  font-weight: 900;
+  margin-bottom: 20px;
+}
+
+.bj-area {
+  padding: 16px;
+  margin: 12px 0;
+  border-radius: 18px;
+  background: rgba(0,0,0,.28);
+  text-align: center;
+}
+
+.bj-area h3 { margin: 0 0 10px; color: #ffd54a; letter-spacing: 2px; }
+.bj-hand { min-height: 65px; display: grid; place-items: center; font-size: clamp(30px,9vw,52px); letter-spacing: 4px; }
+.bj-score { margin-top: 8px; color: #d9cde1; font-weight: 700; }
+.bj-status { padding: 13px; margin: 14px 0; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; background: rgba(0,0,0,.35); color: #fff4bf; text-align: center; font-weight: 800; }
+.bj-controls { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; align-items: end; }
+.bj-controls label { display: grid; gap: 6px; color: #d9cde1; font-size: 12px; font-weight: 800; }
+.bj-controls button { min-height: 50px; border: 0; border-radius: 14px; padding: 12px; background: linear-gradient(180deg,#ffef73,#ffb000); color: #240d00; font-weight: 900; font-size: 15px; }
+.bj-controls button:disabled { opacity: .4; }
+.bj-note { margin: 16px 0 0; color: #a995b4; text-align: center; font-size: 11px; }
+#blackjackCard { cursor: pointer; border-color: #ffd54a; }
+
+@media (max-width:620px) {
+  .blackjack { padding: 14px; border-radius: 22px; }
+  .bj-controls { grid-template-columns: 1fr 1fr; }
+}
