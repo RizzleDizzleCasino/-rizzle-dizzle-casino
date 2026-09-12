@@ -42,7 +42,7 @@
 
   let gameKey = localStorage.getItem('rizzleModernGame') || 'juicy';
   if (!configs[gameKey]) gameKey = 'juicy';
-  let freeSpins = 0;
+  const freeSpinsByGame = { juicy: 0, neon: 0, diamond: 0 };
   let spinning = false;
   let grid = [];
 
@@ -121,6 +121,8 @@
     grid = makeGrid(config);
     render();
     paytableEl.innerHTML = Object.entries(config.payouts).slice(-4).map(([symbol,pays]) => `<span>${symbol} 3/4/5 = ${pays.join('×/')}×</span>`).join('');
+    freeEl.textContent = freeSpinsByGame[gameKey];
+    spinBtn.textContent = freeSpinsByGame[gameKey] > 0 ? 'FREE SPIN ✨' : 'SPIN ✨';
     statusEl.textContent = 'Choose your bet and spin.';
   }
 
@@ -128,15 +130,15 @@
     if (spinning) return;
     const config = configs[gameKey];
     const bet = Number(betEl.value);
-    const usingFreeSpin = freeSpins > 0;
+    const usingFreeSpin = freeSpinsByGame[gameKey] > 0;
     const balance = getBalance();
     if (!usingFreeSpin && balance < bet) {
       statusEl.textContent = 'Not enough Rizzle Coins!';
       return;
     }
     if (!usingFreeSpin) setBalance(balance - bet);
-    else freeSpins--;
-    freeEl.textContent = freeSpins;
+    else freeSpinsByGame[gameKey]--;
+    freeEl.textContent = freeSpinsByGame[gameKey];
     spinning = true;
     spinBtn.disabled = true;
     betEl.disabled = true;
@@ -148,8 +150,8 @@
     const scatters = scatterCount(config);
     if (result.win > 0) setBalance(getBalance() + result.win);
     if (scatters >= 3) {
-      const award = freeSpins > 0 || usingFreeSpin ? 5 : 8;
-      freeSpins += award;
+      const award = freeSpinsByGame[gameKey] > 0 || usingFreeSpin ? 5 : 8;
+      freeSpinsByGame[gameKey] += award;
       const lineWin = result.win > 0 ? ` + ${result.win.toLocaleString()} COINS` : '';
       statusEl.textContent = `🎉 ${scatters} SCATTERS! +${award} FREE SPINS${lineWin}`;
     } else if (result.win > 0) {
@@ -158,8 +160,8 @@
       statusEl.textContent = usingFreeSpin ? 'Free spin complete.' : 'No win — try another Rizzle!';
     }
     render(result.cells);
-    freeEl.textContent = freeSpins;
-    spinBtn.textContent = freeSpins > 0 ? 'FREE SPIN ✨' : 'SPIN ✨';
+    freeEl.textContent = freeSpinsByGame[gameKey];
+    spinBtn.textContent = freeSpinsByGame[gameKey] > 0 ? 'FREE SPIN ✨' : 'SPIN ✨';
     spinning = false;
     spinBtn.disabled = false;
     betEl.disabled = false;
