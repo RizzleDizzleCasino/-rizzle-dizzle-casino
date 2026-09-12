@@ -1,6 +1,7 @@
 const symbols = ["7️⃣", "🍒", "🔔", "💎", "🍋", "⭐"];
 
-let balance = Number(localStorage.getItem("rizzleBalance")) || 10000;
+const savedBalance = localStorage.getItem("rizzleBalance");
+let balance = savedBalance === null ? 10000 : Number(savedBalance);
 let soundOn = localStorage.getItem("rizzleSound") !== "off";
 let audioContext = null;
 
@@ -27,6 +28,18 @@ function updateBalance() {
   balanceEl.textContent = balance.toLocaleString();
   localStorage.setItem("rizzleBalance", balance);
 }
+
+window.getRizzleBalance = function () {
+  const stored = localStorage.getItem("rizzleBalance");
+  const value = stored === null ? 10000 : Number(stored);
+  return Number.isFinite(value) ? value : 10000;
+};
+
+window.setRizzleBalance = function (value) {
+  balance = Number(value);
+  updateBalance();
+  return balance;
+};
 
 function updateSoundButton() {
   if (!muteBtn) return;
@@ -101,6 +114,8 @@ function sleep(ms) {
 
 async function spinReels() {
   const bet = Number(betEl.value);
+
+  balance = window.getRizzleBalance();
 
   await unlockAudio();
 
@@ -264,7 +279,7 @@ if (dailyBonusBtn) {
       return;
     }
 
-    balance += DAILY_BONUS;
+    balance = window.getRizzleBalance() + DAILY_BONUS;
 
     localStorage.setItem(
       "rizzleDailyBonus",
@@ -546,4 +561,3 @@ if (bjGameCard) {
       });
   });
 }
-

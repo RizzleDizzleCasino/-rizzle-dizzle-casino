@@ -19,10 +19,18 @@
   let currentBet = 0;
   let playing = false;
 
-  const getBalance = () => Number(localStorage.getItem('rizzleBalance')) || 10000;
+  const getBalance = () => {
+    if (window.getRizzleBalance) return window.getRizzleBalance();
+    const stored = localStorage.getItem('rizzleBalance');
+    const value = stored === null ? 10000 : Number(stored);
+    return Number.isFinite(value) ? value : 10000;
+  };
   const setBalance = value => {
-    localStorage.setItem('rizzleBalance', String(value));
-    if (balanceEl) balanceEl.textContent = value.toLocaleString(undefined, { maximumFractionDigits: 1 });
+    if (window.setRizzleBalance) window.setRizzleBalance(value);
+    else {
+      localStorage.setItem('rizzleBalance', String(value));
+      if (balanceEl) balanceEl.textContent = value.toLocaleString(undefined, { maximumFractionDigits: 1 });
+    }
   };
 
   function makeDeck() {

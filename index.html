@@ -7,6 +7,7 @@
 <meta name="description" content="Rizzle Dizzle Casino — free-play social casino prototype.">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="blackjack-fix.css?v=3">
+<link rel="stylesheet" href="modern-slots.css?v=1">
 </head>
 <body>
 <header>
@@ -53,8 +54,41 @@
 <section class="games">
   <article><b>🎰 Rizzle Reels</b><small>PLAYABLE NOW</small></article>
   <article id="blackjackCard"><b>🃏 Rizzle Blackjack</b><small>PLAYABLE NOW</small></article>
+  <article class="modern-game-card" data-slot-game="juicy"><b>🥭 Juicy Jungle</b><small>FREE SPINS</small></article>
+  <article class="modern-game-card" data-slot-game="neon"><b>🌃 Neon Nights</b><small>FREE SPINS</small></article>
+  <article class="modern-game-card" data-slot-game="diamond"><b>💎 Diamond Rush</b><small>FREE SPINS</small></article>
   <article class="locked"><b>🎡 Rizzle Roulette</b><small>COMING NEXT</small></article>
   <article class="locked"><b>🏆 High Rollers</b><small>COMING NEXT</small></article>
+</section>
+
+<section class="modern-slots" id="modernSlots">
+  <div class="modern-slot-heading">
+    <p class="eyebrow">NEW FREE-PLAY SLOTS</p>
+    <h2 id="modernSlotTitle">🥭 JUICY JUNGLE</h2>
+    <p id="modernSlotFeature">Expanding wilds • 3 scatters award 8 free spins</p>
+  </div>
+
+  <div class="slot-tabs" role="tablist" aria-label="Choose slot game">
+    <button type="button" class="slot-tab active" data-slot-game="juicy">🥭 JUICY JUNGLE</button>
+    <button type="button" class="slot-tab" data-slot-game="neon">🌃 NEON NIGHTS</button>
+    <button type="button" class="slot-tab" data-slot-game="diamond">💎 DIAMOND RUSH</button>
+  </div>
+
+  <div class="modern-machine theme-juicy" id="modernMachine">
+    <div class="free-spins-meter"><span>FREE SPINS</span><strong id="freeSpinsCount">0</strong></div>
+    <div class="modern-reels" id="modernReels" aria-label="Five reel slot result"></div>
+    <div class="modern-status" id="modernStatus">Choose your bet and spin.</div>
+    <div class="modern-controls">
+      <label>TOTAL BET
+        <select id="modernBet">
+          <option>10</option><option>20</option><option selected>50</option><option>100</option><option>200</option>
+        </select>
+      </label>
+      <button id="modernSpin" type="button">SPIN ✨</button>
+    </div>
+    <div class="modern-paytable" id="modernPaytable"></div>
+    <p class="bj-note">Free-play only. Free spins and Rizzle Coins have no monetary value.</p>
+  </div>
 </section>
 
 <section class="blackjack" id="blackjack">
@@ -98,5 +132,6 @@
 </footer>
 <script src="app.js?v=4"></script>
 <script src="blackjack-fix.js?v=3"></script>
+<script src="modern-slots.js?v=1"></script>
 </body>
 </html>

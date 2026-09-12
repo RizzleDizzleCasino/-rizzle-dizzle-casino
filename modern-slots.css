@@ -1,0 +1,195 @@
+.modern-slots {
+  margin: 18px auto 44px;
+}
+
+.modern-slot-heading {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.modern-slot-heading h2 {
+  margin: 4px 0 7px;
+  color: #ffd54a;
+  font-size: clamp(28px, 7vw, 48px);
+  line-height: 1;
+}
+
+.modern-slot-heading p:last-child {
+  margin: 0;
+  color: #d9cde1;
+  font-size: 13px;
+}
+
+.slot-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.slot-tab {
+  min-height: 46px;
+  border: 1px solid rgba(255,213,74,.35);
+  border-radius: 12px;
+  background: #160820;
+  color: #d9cde1;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.slot-tab.active {
+  border-color: #ffd54a;
+  background: linear-gradient(180deg,#5b1a78,#260437);
+  color: #fff4bf;
+  box-shadow: 0 0 18px rgba(255,198,42,.18);
+}
+
+.modern-machine {
+  position: relative;
+  padding: 18px;
+  border: 3px solid #ffd54a;
+  border-radius: 25px;
+  background: radial-gradient(circle at top,#53135f,#110019 70%);
+  box-shadow: 0 0 0 5px #4d2a00,0 0 34px rgba(255,183,0,.23);
+  overflow: hidden;
+}
+
+.modern-machine.theme-neon {
+  border-color: #35ecff;
+  background: radial-gradient(circle at top,#092d68,#090014 70%);
+  box-shadow: 0 0 0 5px #071b41,0 0 34px rgba(53,236,255,.25);
+}
+
+.modern-machine.theme-diamond {
+  border-color: #8ff5ff;
+  background: radial-gradient(circle at top,#244f79,#070f24 70%);
+  box-shadow: 0 0 0 5px #13304d,0 0 34px rgba(143,245,255,.28);
+}
+
+.free-spins-meter {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid #ffd54a;
+  border-radius: 999px;
+  background: rgba(0,0,0,.55);
+  color: #ffd54a;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.free-spins-meter strong { font-size: 18px; }
+
+.modern-reels {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 34px;
+}
+
+.modern-reel {
+  display: grid;
+  gap: 7px;
+}
+
+.modern-symbol {
+  min-height: 78px;
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(255,255,255,.72);
+  border-radius: 13px;
+  background: linear-gradient(180deg,#fff,#e9def0);
+  color: #111;
+  font-size: clamp(32px,7vw,52px);
+  box-shadow: inset 0 5px 10px rgba(255,255,255,.8),0 5px 10px rgba(0,0,0,.28);
+}
+
+.modern-symbol.winning {
+  animation: symbolWin .45s ease-in-out 4;
+  border-color: #ffd54a;
+}
+
+.modern-reel.spinning { animation: modernSpin .13s linear infinite; }
+
+.modern-status {
+  min-height: 51px;
+  display: grid;
+  place-items: center;
+  margin: 14px 0;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 13px;
+  background: rgba(0,0,0,.38);
+  color: #fff4bf;
+  text-align: center;
+  font-weight: 900;
+}
+
+.modern-controls {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: 12px;
+  align-items: end;
+}
+
+.modern-controls label {
+  display: grid;
+  gap: 6px;
+  color: #d9cde1;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+#modernSpin {
+  min-height: 54px;
+  border: 0;
+  border-radius: 15px;
+  background: linear-gradient(180deg,#fff282,#ffbd16 55%,#e68100);
+  color: #260c00;
+  font-size: 20px;
+  font-weight: 1000;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #824500;
+}
+
+#modernSpin:disabled { opacity: .58; cursor: not-allowed; }
+
+.modern-paytable {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 7px;
+  margin-top: 14px;
+}
+
+.modern-paytable span {
+  padding: 8px 6px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.07);
+  color: #ddd0e5;
+  text-align: center;
+  font-size: 11px;
+}
+
+@keyframes modernSpin {
+  0%,100% { transform: translateY(-3px); filter: blur(0); }
+  50% { transform: translateY(3px); filter: blur(1.5px); }
+}
+
+@keyframes symbolWin {
+  50% { transform: scale(1.07); filter: brightness(1.35); }
+}
+
+@media (max-width:620px) {
+  .slot-tabs { grid-template-columns: 1fr; }
+  .modern-machine { padding: 12px; }
+  .modern-reels { gap: 4px; margin-top: 38px; }
+  .modern-reel { gap: 4px; }
+  .modern-symbol { min-height: 58px; border-radius: 8px; font-size: 31px; }
+  .modern-controls { grid-template-columns: 1fr; }
+  .modern-paytable { grid-template-columns: repeat(2,1fr); }
+}

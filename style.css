@@ -424,7 +424,6 @@ footer p {
     font-size: 9px;
   }
 }
-r
 
 
 /* Daily bonus */
@@ -459,7 +458,8 @@ r
 
 #dailyBonusStatus {
   color: #cdbed6;
-  font-size: e
+  font-size: 12px;
+}
 
 /* Rizzle Blackjack */
 
