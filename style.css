@@ -83,7 +83,7 @@ main {
 
 .casino-lobby { padding: 20px 0 46px; text-align:center; }
 .casino-lobby h2,.menu-heading h2 { margin:4px 0 20px; font-size:clamp(30px,7vw,52px); line-height:1; color:#fff; }
-.lobby-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.lobby-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
 .lobby-card { position:relative; min-height:230px; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; gap:8px; padding:20px; border:2px solid rgba(255,215,74,.45); border-radius:25px; color:#fff; text-align:left; overflow:hidden; cursor:pointer; box-shadow:0 16px 32px rgba(0,0,0,.28); transition:transform .18s ease,border-color .18s ease; }
 .lobby-card::before { content:""; position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.88),transparent 70%); }
 .lobby-card > * { position:relative; z-index:1; }
@@ -91,6 +91,7 @@ main {
 .pokies-card { background:radial-gradient(circle at 60% 15%,#fa2ccb,#4f087a 55%,#180021); }
 .tables-card { background:radial-gradient(circle at 60% 15%,#ef7820,#5c0e39 55%,#180021); }
 .dose-card { background:radial-gradient(circle at 60% 15%,#2adcf4,#3c1478 55%,#180021); }
+.instant-card { background:radial-gradient(circle at 60% 15%,#ffe03d,#a43718 55%,#180021); }
 .lobby-icon { position:absolute; top:16px; right:18px; font-size:70px; filter:drop-shadow(0 8px 9px rgba(0,0,0,.38)); }
 .lobby-card strong { font-size:25px; }
 .lobby-card small { min-height:36px; color:#dfd1e7; font-size:13px; line-height:1.35; }

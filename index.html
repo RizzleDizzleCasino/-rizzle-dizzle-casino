@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Rizzle Dizzle Casino</title>
 <meta name="description" content="Rizzle Dizzle Casino — free-play social casino prototype.">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 <link rel="stylesheet" href="blackjack-fix.css?v=4">
 <link rel="stylesheet" href="modern-slots.css?v=3">
 <link rel="stylesheet" href="daily-wheel.css?v=1">
 <link rel="stylesheet" href="table-games.css?v=1">
+<link rel="stylesheet" href="instant-games.css?v=1">
 </head>
 <body>
 <header>
@@ -34,6 +35,9 @@
     </button>
     <button class="lobby-card tables-card" type="button" data-open-menu="tablesMenu">
       <span class="lobby-icon">🃏</span><strong>TABLE GAMES</strong><small>Blackjack, Roulette & High Rollers</small><em>CHOOSE A TABLE</em>
+    </button>
+    <button class="lobby-card instant-card" type="button" data-open-menu="instantMenu">
+      <span class="lobby-icon">⚡</span><strong>INSTANT GAMES</strong><small>Scratch & Win and Lucky Keno</small><em>PLAY INSTANTLY</em>
     </button>
     <button class="lobby-card dose-card" type="button" data-open-view="dailyWheel">
       <span class="lobby-icon">🎁</span><strong>DAILY DOSE</strong><small>Whack That Wheel every 24 hours</small><em>CLAIM TODAY’S DOSE</em>
@@ -107,6 +111,36 @@
   <article data-open-view="blackjack"><b>🃏 Rizzle Blackjack</b><small>BLACKJACK PAYS 3:2</small></article>
   <article data-open-view="rouletteGame"><b>🎡 Rizzle Roulette</b><small>RED • BLACK • GREEN</small></article>
   <article data-open-view="highLowGame"><b>🏆 High Rollers</b><small>HIGH • LOW • LUCKY 7</small></article>
+</section>
+
+<section class="games game-menu" id="instantMenu" hidden>
+  <div class="menu-heading"><button class="back-lobby" type="button">‹ BACK TO LOBBY</button><p class="eyebrow">INSTANT GAMES</p><h2>CHOOSE A QUICK GAME</h2></div>
+  <article data-open-view="scratchGame"><b>✨ Scratch & Win</b><small>FIND 3 MATCHING</small></article>
+  <article data-open-view="kenoGame"><b>🔢 Lucky Keno</b><small>PICK 5 NUMBERS</small></article>
+</section>
+
+<section class="instant-game game-view" id="scratchGame" hidden>
+  <button class="back-lobby" type="button">‹ BACK TO INSTANT GAMES</button>
+  <p class="eyebrow">INSTANT GAME</p><h2>✨ SCRATCH & WIN</h2>
+  <p class="game-instruction">Reveal all six panels. Find three matching symbols to win 5× your bet.</p>
+  <div class="scratch-grid" id="scratchGrid"></div>
+  <div class="table-status" id="scratchStatus">Choose your bet and start a card.</div>
+  <div class="table-controls">
+    <label>BET <select id="scratchBet"><option>10</option><option selected>50</option><option>100</option><option>250</option></select></label>
+    <button id="newScratch" type="button">NEW CARD ✨</button>
+  </div>
+</section>
+
+<section class="instant-game game-view" id="kenoGame" hidden>
+  <button class="back-lobby" type="button">‹ BACK TO INSTANT GAMES</button>
+  <p class="eyebrow">QUICK PICK</p><h2>🔢 LUCKY KENO</h2>
+  <p class="game-instruction">Pick exactly five numbers, then start the draw.</p>
+  <div class="keno-grid" id="kenoGrid"></div>
+  <div class="table-status" id="kenoStatus">Pick 5 numbers.</div>
+  <div class="table-controls">
+    <label>BET <select id="kenoBet"><option>10</option><option selected>50</option><option>100</option><option>250</option></select></label>
+    <button id="drawKeno" type="button">DRAW 5 🔢</button>
+  </div>
 </section>
 
 <section class="modern-slots game-view" id="modernSlots" hidden>
@@ -230,6 +264,7 @@
 <script src="modern-slots.js?v=3"></script>
 <script src="daily-wheel.js?v=1"></script>
 <script src="table-games.js?v=1"></script>
-<script src="casino-nav.js?v=1"></script>
+<script src="instant-games.js?v=1"></script>
+<script src="casino-nav.js?v=2"></script>
 </body>
 </html>

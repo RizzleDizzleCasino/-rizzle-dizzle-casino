@@ -38,11 +38,13 @@
 
   document.querySelectorAll('.back-lobby').forEach(button => {
     button.addEventListener('click', () => {
-      const parent = button.closest('.machine,.modern-slots,.blackjack,.table-game');
+      const parent = button.closest('.machine,.modern-slots,.blackjack,.table-game,.instant-game');
       if (parent && (parent.id === 'classicReels' || parent.id === 'modernSlots')) {
         show(document.getElementById('pokiesMenu'));
       } else if (parent && ['blackjack','rouletteGame','highLowGame'].includes(parent.id)) {
         show(document.getElementById('tablesMenu'));
+      } else if (parent && ['scratchGame','kenoGame'].includes(parent.id)) {
+        show(document.getElementById('instantMenu'));
       } else {
         show(lobby);
       }

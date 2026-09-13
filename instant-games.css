@@ -1,0 +1,14 @@
+.instant-game { width:min(680px,100%); margin:20px auto 44px; padding:22px; border:2px solid #ffdc55; border-radius:25px; background:radial-gradient(circle at 50% 0,rgba(255,55,203,.3),transparent 42%),#14001f; box-shadow:0 14px 34px rgba(0,0,0,.32); }
+.instant-game h2 { margin:8px 0; color:#fff; font-size:clamp(28px,7vw,44px); text-align:center; }
+.instant-game > .eyebrow { margin-top:18px; text-align:center; }
+.game-instruction { color:#cdbed6; text-align:center; line-height:1.45; }
+.scratch-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:20px 0; }
+.scratch-tile { min-height:100px; border:2px solid #ffe36a; border-radius:15px; background:linear-gradient(145deg,#ff4bca,#5e16b0); color:#fff; font-size:27px; font-weight:1000; box-shadow:inset 0 0 16px rgba(255,255,255,.18),0 5px 10px rgba(0,0,0,.3); }
+.scratch-tile.revealed { background:linear-gradient(180deg,#fff,#e9ddf0); color:#111; font-size:46px; animation:reveal .28s ease; }
+.keno-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:20px 0; }
+.keno-grid button { aspect-ratio:1; border:1px solid rgba(255,255,255,.22); border-radius:12px; background:#2a1038; color:#fff; font-size:18px; font-weight:900; }
+.keno-grid button.selected { border-color:#ffe363; background:#7f1fb0; box-shadow:0 0 14px rgba(255,45,216,.35); }
+.keno-grid button.drawn { outline:3px solid #ffb719; background:#a34400; }
+.keno-grid button.selected.drawn { background:#087d52; outline-color:#53ffb2; }
+@keyframes reveal { from{transform:rotateY(90deg) scale(.8)} to{transform:none} }
+@media(max-width:620px){.instant-game{padding:15px}.scratch-tile{min-height:78px}.keno-grid{gap:5px}.keno-grid button{border-radius:9px;font-size:16px}}
