@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Rizzle Dizzle Casino</title>
 <meta name="description" content="Rizzle Dizzle Casino — free-play social casino prototype.">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 <link rel="stylesheet" href="blackjack-fix.css?v=4">
-<link rel="stylesheet" href="modern-slots.css?v=2">
+<link rel="stylesheet" href="modern-slots.css?v=3">
+<link rel="stylesheet" href="daily-wheel.css?v=1">
+<link rel="stylesheet" href="table-games.css?v=1">
 </head>
 <body>
 <header>
-  <img class="logo" src="rizzle-dizzle-casino-logo.png" alt="Rizzle Dizzle Casino">
+  <img class="logo" src="rizzle-dizzle-casino-logo-wide.png" alt="Rizzle Dizzle Casino">
   <div class="balance">RIZZLE COINS <strong id="balance">10,000</strong></div>
 </header>
 <button id="mute" class="mute-btn" type="button">🔊 SOUND ON</button>
@@ -23,7 +25,42 @@
   <p>Spin Rizzle Reels using free Rizzle Coins. No deposits. No withdrawals. No cash prizes.</p>
 </section>
 
-<section class="machine">
+<section class="casino-lobby" id="casinoLobby">
+  <p class="eyebrow">CHOOSE YOUR GAME</p>
+  <h2>RIZZLE DIZZLE LOBBY</h2>
+  <div class="lobby-grid">
+    <button class="lobby-card pokies-card" type="button" data-open-menu="pokiesMenu">
+      <span class="lobby-icon">🎰</span><strong>POKIES</strong><small>12 themed machines + classic reels</small><em>CHOOSE POKIES</em>
+    </button>
+    <button class="lobby-card tables-card" type="button" data-open-menu="tablesMenu">
+      <span class="lobby-icon">🃏</span><strong>TABLE GAMES</strong><small>Blackjack, Roulette & High Rollers</small><em>CHOOSE A TABLE</em>
+    </button>
+    <button class="lobby-card dose-card" type="button" data-open-view="dailyWheel">
+      <span class="lobby-icon">🎁</span><strong>DAILY DOSE</strong><small>Whack That Wheel every 24 hours</small><em>CLAIM TODAY’S DOSE</em>
+    </button>
+  </div>
+</section>
+
+<section class="daily-wheel game-view" id="dailyWheel" hidden>
+  <button class="back-lobby" type="button">‹ BACK TO LOBBY</button>
+  <div class="wheel-copy">
+    <p class="eyebrow">DAILY DOSE</p>
+    <h2>WHACK THAT WHEEL</h2>
+    <p>Come back every 24 hours for a chance to win Rizzle Coins or free spins.</p>
+    <div class="wheel-status" id="wheelStatus">Your daily spin is ready!</div>
+    <button id="spinWheel" type="button">WHACK THE WHEEL 🎁</button>
+    <small>Promotional free-play prizes only. No cash value.</small>
+  </div>
+  <div class="wheel-stage">
+    <div class="wheel-pointer" aria-hidden="true">▼</div>
+    <div class="prize-wheel" id="prizeWheel" role="img" aria-label="Daily prize wheel">
+      <div class="wheel-hub">RD</div>
+    </div>
+  </div>
+</section>
+
+<section class="machine game-view" id="classicReels" hidden>
+  <button class="back-lobby" type="button">‹ BACK TO POKIES</button>
   <div class="machine-top">👑 RIZZLE REELS 👑</div>
   <div class="reels">
     <div class="reel" id="r1">7️⃣</div>
@@ -31,10 +68,7 @@
     <div class="reel" id="r3">🔔</div>
   </div>
   <div class="status" id="status">Choose your bet and spin.</div>
-  <div class="daily-bonus">
-    <button id="dailyBonus" type="button">🎁 CLAIM DAILY 1,000 COINS</button>
-    <small id="dailyBonusStatus">Available once every 24 hours</small>
-  </div>
+  <a class="wheel-promo-link" href="#dailyWheel">🎁 Daily Dose: Whack That Wheel</a>
   <div class="controls">
     <label>BET
       <select id="bet">
@@ -51,17 +85,32 @@
   </div>
 </section>
 
-<section class="games">
-  <article><b>🎰 Rizzle Reels</b><small>PLAYABLE NOW</small></article>
-  <article id="blackjackCard"><b>🃏 Rizzle Blackjack</b><small>PLAYABLE NOW</small></article>
+<section class="games game-menu" id="pokiesMenu" hidden>
+  <div class="menu-heading"><button class="back-lobby" type="button">‹ BACK TO LOBBY</button><p class="eyebrow">POKIES</p><h2>CHOOSE YOUR MACHINE</h2></div>
+  <article data-open-view="classicReels"><b>🎰 Rizzle Reels</b><small>CLASSIC 3-REEL</small></article>
   <article class="modern-game-card" data-slot-game="juicy"><b>🥭 Juicy Jungle</b><small>FREE SPINS</small></article>
   <article class="modern-game-card" data-slot-game="neon"><b>🌃 Neon Nights</b><small>FREE SPINS</small></article>
   <article class="modern-game-card" data-slot-game="diamond"><b>💎 Diamond Rush</b><small>FREE SPINS</small></article>
-  <article class="locked"><b>🎡 Rizzle Roulette</b><small>COMING NEXT</small></article>
-  <article class="locked"><b>🏆 High Rollers</b><small>COMING NEXT</small></article>
+  <article class="modern-game-card" data-slot-game="pirate"><b>🏴‍☠️ Pirate Gold</b><small>TREASURE SPINS</small></article>
+  <article class="modern-game-card" data-slot-game="dragon"><b>🐉 Dragon Fortune</b><small>LUCKY WILDS</small></article>
+  <article class="modern-game-card" data-slot-game="cosmic"><b>🚀 Cosmic Cash</b><small>GALAXY SPINS</small></article>
+  <article class="modern-game-card" data-slot-game="candy"><b>🍭 Candy Craze</b><small>SWEET FREE SPINS</small></article>
+  <article class="modern-game-card" data-slot-game="outback"><b>🦘 Outback Riches</b><small>BONUS SPINS</small></article>
+  <article class="modern-game-card" data-slot-game="pharaoh"><b>𓂀 Pharaoh’s Fortune</b><small>TOMB BONUS</small></article>
+  <article class="modern-game-card" data-slot-game="volcano"><b>🌋 Volcano Vault</b><small>ERUPTION WILDS</small></article>
+  <article class="modern-game-card" data-slot-game="ocean"><b>🧜 Ocean Treasures</b><small>PEARL SPINS</small></article>
+  <article class="modern-game-card" data-slot-game="disco"><b>🪩 Disco Diamonds</b><small>2× WILDS</small></article>
 </section>
 
-<section class="modern-slots" id="modernSlots">
+<section class="games game-menu" id="tablesMenu" hidden>
+  <div class="menu-heading"><button class="back-lobby" type="button">‹ BACK TO LOBBY</button><p class="eyebrow">TABLE GAMES</p><h2>CHOOSE YOUR TABLE</h2></div>
+  <article data-open-view="blackjack"><b>🃏 Rizzle Blackjack</b><small>BLACKJACK PAYS 3:2</small></article>
+  <article data-open-view="rouletteGame"><b>🎡 Rizzle Roulette</b><small>RED • BLACK • GREEN</small></article>
+  <article data-open-view="highLowGame"><b>🏆 High Rollers</b><small>HIGH • LOW • LUCKY 7</small></article>
+</section>
+
+<section class="modern-slots game-view" id="modernSlots" hidden>
+  <button class="back-lobby" type="button">‹ BACK TO POKIES</button>
   <div class="modern-slot-heading">
     <p class="eyebrow">NEW FREE-PLAY SLOTS</p>
     <h2 id="modernSlotTitle">🥭 JUICY JUNGLE</h2>
@@ -72,6 +121,15 @@
     <button type="button" class="slot-tab active" data-slot-game="juicy">🥭 JUICY JUNGLE</button>
     <button type="button" class="slot-tab" data-slot-game="neon">🌃 NEON NIGHTS</button>
     <button type="button" class="slot-tab" data-slot-game="diamond">💎 DIAMOND RUSH</button>
+    <button type="button" class="slot-tab" data-slot-game="pirate">🏴‍☠️ PIRATE GOLD</button>
+    <button type="button" class="slot-tab" data-slot-game="dragon">🐉 DRAGON FORTUNE</button>
+    <button type="button" class="slot-tab" data-slot-game="cosmic">🚀 COSMIC CASH</button>
+    <button type="button" class="slot-tab" data-slot-game="candy">🍭 CANDY CRAZE</button>
+    <button type="button" class="slot-tab" data-slot-game="outback">🦘 OUTBACK RICHES</button>
+    <button type="button" class="slot-tab" data-slot-game="pharaoh">𓂀 PHARAOH’S FORTUNE</button>
+    <button type="button" class="slot-tab" data-slot-game="volcano">🌋 VOLCANO VAULT</button>
+    <button type="button" class="slot-tab" data-slot-game="ocean">🧜 OCEAN TREASURES</button>
+    <button type="button" class="slot-tab" data-slot-game="disco">🪩 DISCO DIAMONDS</button>
   </div>
 
   <div class="modern-machine theme-juicy" id="modernMachine">
@@ -91,7 +149,44 @@
   </div>
 </section>
 
-<section class="blackjack" id="blackjack">
+<section class="table-games" id="tableGames">
+  <article class="table-game roulette-game game-view" id="rouletteGame" hidden>
+    <button class="back-lobby" type="button">‹ BACK TO TABLE GAMES</button>
+    <p class="eyebrow">TABLE GAME</p>
+    <h2>🎡 RIZZLE ROULETTE</h2>
+    <div class="roulette-display"><span id="rouletteBall">•</span><strong id="rouletteNumber">?</strong></div>
+    <div class="table-status" id="rouletteStatus">Choose red, black or green and spin.</div>
+    <div class="roulette-choices" id="rouletteChoices">
+      <button type="button" data-choice="red">RED</button>
+      <button type="button" data-choice="black">BLACK</button>
+      <button type="button" data-choice="green">GREEN</button>
+    </div>
+    <div class="table-controls">
+      <label>BET <select id="rouletteBet"><option>10</option><option selected>50</option><option>100</option><option>250</option></select></label>
+      <button id="spinRoulette" type="button">SPIN 🎡</button>
+    </div>
+  </article>
+
+  <article class="table-game high-low-game game-view" id="highLowGame" hidden>
+    <button class="back-lobby" type="button">‹ BACK TO TABLE GAMES</button>
+    <p class="eyebrow">QUICK GAME</p>
+    <h2>🏆 HIGH ROLLERS</h2>
+    <div class="dice-display" id="diceDisplay">⚄ ⚄</div>
+    <div class="table-status" id="highLowStatus">Will the total be high, low or exactly seven?</div>
+    <div class="high-low-choices" id="highLowChoices">
+      <button type="button" data-choice="low">LOW 2–6</button>
+      <button type="button" data-choice="seven">LUCKY 7</button>
+      <button type="button" data-choice="high">HIGH 8–12</button>
+    </div>
+    <div class="table-controls">
+      <label>BET <select id="highLowBet"><option>10</option><option selected>50</option><option>100</option><option>250</option></select></label>
+      <button id="rollDice" type="button">ROLL 🎲</button>
+    </div>
+  </article>
+</section>
+
+<section class="blackjack game-view" id="blackjack" hidden>
+  <button class="back-lobby" type="button">‹ BACK TO TABLE GAMES</button>
   <div class="blackjack-top">🃏 RIZZLE BLACKJACK 🃏</div>
   <div class="bj-rules">Blackjack pays 3:2 • Dealer stands on 17 • Double down available on first 2 cards</div>
 
@@ -130,8 +225,11 @@
   <strong>RizzleDizzleCasino.com</strong>
   <p>Prototype for entertainment only. Rizzle Coins have no monetary value and cannot be purchased, transferred, redeemed or withdrawn.</p>
 </footer>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 <script src="blackjack-fix.js?v=4"></script>
-<script src="modern-slots.js?v=2"></script>
+<script src="modern-slots.js?v=3"></script>
+<script src="daily-wheel.js?v=1"></script>
+<script src="table-games.js?v=1"></script>
+<script src="casino-nav.js?v=1"></script>
 </body>
 </html>

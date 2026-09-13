@@ -7,6 +7,8 @@ html {
   scroll-behavior: smooth;
 }
 
+[hidden] { display: none !important; }
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -15,6 +17,20 @@ body {
     linear-gradient(180deg, #09000f 0%, #12001d 52%, #050008 100%);
   color: #fff;
   min-height: 100vh;
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .18;
+  background-image: radial-gradient(circle,#ffd54a 1px,transparent 1px),radial-gradient(circle,#df32ff 1px,transparent 1px);
+  background-position: 0 0,18px 18px;
+  background-size: 36px 36px;
+  mask-image: linear-gradient(to bottom,black,transparent 78%);
 }
 
 header {
@@ -32,9 +48,11 @@ header {
 }
 
 .logo {
-  width: min(190px, 48vw);
+  width: min(390px, 62vw);
   height: auto;
   display: block;
+  margin: -18px 0;
+  filter: drop-shadow(0 0 12px rgba(255,45,205,.28));
 }
 
 .balance {
@@ -62,6 +80,23 @@ main {
   width: min(920px, calc(100% - 28px));
   margin: 0 auto;
 }
+
+.casino-lobby { padding: 20px 0 46px; text-align:center; }
+.casino-lobby h2,.menu-heading h2 { margin:4px 0 20px; font-size:clamp(30px,7vw,52px); line-height:1; color:#fff; }
+.lobby-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.lobby-card { position:relative; min-height:230px; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; gap:8px; padding:20px; border:2px solid rgba(255,215,74,.45); border-radius:25px; color:#fff; text-align:left; overflow:hidden; cursor:pointer; box-shadow:0 16px 32px rgba(0,0,0,.28); transition:transform .18s ease,border-color .18s ease; }
+.lobby-card::before { content:""; position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.88),transparent 70%); }
+.lobby-card > * { position:relative; z-index:1; }
+.lobby-card:hover,.lobby-card:focus-visible { transform:translateY(-5px); border-color:#ffe36b; }
+.pokies-card { background:radial-gradient(circle at 60% 15%,#fa2ccb,#4f087a 55%,#180021); }
+.tables-card { background:radial-gradient(circle at 60% 15%,#ef7820,#5c0e39 55%,#180021); }
+.dose-card { background:radial-gradient(circle at 60% 15%,#2adcf4,#3c1478 55%,#180021); }
+.lobby-icon { position:absolute; top:16px; right:18px; font-size:70px; filter:drop-shadow(0 8px 9px rgba(0,0,0,.38)); }
+.lobby-card strong { font-size:25px; }
+.lobby-card small { min-height:36px; color:#dfd1e7; font-size:13px; line-height:1.35; }
+.lobby-card em { color:#ffe264; font-size:12px; font-style:normal; font-weight:1000; letter-spacing:.7px; }
+.menu-heading { grid-column:1/-1; text-align:center; margin-bottom:2px; }
+.back-lobby { position:relative; z-index:5; border:1px solid rgba(255,213,74,.55); border-radius:999px; padding:9px 13px; background:#180820; color:#ffe273; font-size:12px; font-weight:900; cursor:pointer; }
 
 .hero {
   text-align: center;
@@ -274,14 +309,21 @@ select {
     linear-gradient(145deg, rgba(118,0,188,.65), rgba(27,0,40,.92));
   border: 1px solid rgba(255, 205, 52, 0.3);
   box-shadow: 0 10px 24px rgba(0,0,0,.22);
+  overflow: hidden;
+  transition: transform .18s ease,border-color .18s ease,box-shadow .18s ease;
 }
 
+.games article::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 85% 15%,rgba(255,216,74,.2),transparent 35%); pointer-events:none; }
+.games article:hover,.games article:focus-within { transform:translateY(-3px); border-color:#ffd54a; box-shadow:0 14px 30px rgba(189,32,255,.22); }
+
 .games article b {
+  position: relative;
   color: #fff;
   font-size: 20px;
 }
 
 .games article small {
+  position: relative;
   color: #ffd44f;
   font-weight: 900;
   letter-spacing: 1px;
@@ -316,6 +358,8 @@ footer p {
     padding: 10px 12px;
   }
 
+  .logo { width:min(250px,60vw); margin:-9px 0; }
+
   .balance {
     padding: 8px 10px;
     font-size: 10px;
@@ -349,6 +393,11 @@ footer p {
   .games {
     grid-template-columns: 1fr;
   }
+
+  .casino-lobby { padding-top:6px; }
+  .lobby-grid { grid-template-columns:1fr; gap:12px; }
+  .lobby-card { min-height:150px; }
+  .lobby-icon { font-size:58px; }
 }
 
 

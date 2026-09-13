@@ -20,6 +20,60 @@
       symbols: ['💠','💎','👑','💍','🔷','🔶','🃏','✨'],
       wild: '🃏', scatter: '✨', className: 'theme-diamond',
       payouts: { '💠':[3,7,16], '🔷':[3,8,20], '🔶':[4,10,24], '💍':[5,14,35], '👑':[7,20,50], '💎':[10,28,75] }
+    },
+    pirate: {
+      title: '🏴‍☠️ PIRATE GOLD', feature: 'Treasure wilds • 3 maps award 8 free spins',
+      symbols: ['🪙','⚓','🦜','🏴‍☠️','💰','👑','💎','🗺️'], wild: '💎', scatter: '🗺️',
+      accent: '#ffd44f', glow: '#6b2400',
+      payouts: { '🪙':[3,7,16], '⚓':[3,8,19], '🦜':[4,10,24], '🏴‍☠️':[5,14,34], '💰':[8,22,55], '👑':[10,30,80] }
+    },
+    dragon: {
+      title: '🐉 DRAGON FORTUNE', feature: 'Lucky dragon wilds • 3 lanterns award 10 free spins',
+      symbols: ['🪭','🪙','🏮','🐼','🐲','👑','🐉','✨'], wild: '🐉', scatter: '✨',
+      accent: '#ffcf3f', glow: '#8f001d', freeAward: 10,
+      payouts: { '🪭':[3,6,15], '🪙':[3,8,20], '🏮':[4,10,25], '🐼':[6,16,38], '🐲':[8,24,60], '👑':[12,35,90] }
+    },
+    cosmic: {
+      title: '🚀 COSMIC CASH', feature: 'Orbiting wilds • 3 rockets award 8 galaxy spins',
+      symbols: ['🪐','🌎','👾','🌟','☄️','🛸','🌌','🚀'], wild: '🌌', scatter: '🚀',
+      accent: '#45f3ff', glow: '#30106f',
+      payouts: { '🪐':[3,7,18], '🌎':[4,9,22], '👾':[5,12,28], '🌟':[6,16,40], '☄️':[8,24,60], '🛸':[12,38,100] }
+    },
+    candy: {
+      title: '🍭 CANDY CRAZE', feature: 'Sticky sweet wilds • 3 gifts award 8 free spins',
+      symbols: ['🍬','🍭','🧁','🍩','🍫','🍓','🌈','🎁'], wild: '🌈', scatter: '🎁',
+      accent: '#ff7ce5', glow: '#6d145f',
+      payouts: { '🍬':[3,6,14], '🍭':[3,8,18], '🧁':[4,10,24], '🍩':[5,14,32], '🍫':[7,20,48], '🍓':[10,30,75] }
+    },
+    outback: {
+      title: '🦘 OUTBACK RICHES', feature: 'Golden wilds • 3 boots award 8 bonus spins',
+      symbols: ['🪃','🐨','🦘','🐊','☀️','💰','🥇','🥾'], wild: '🥇', scatter: '🥾',
+      accent: '#ffb23f', glow: '#66320b',
+      payouts: { '🪃':[3,6,15], '🐨':[4,9,21], '🦘':[5,12,30], '🐊':[6,16,38], '☀️':[8,22,55], '💰':[12,35,90] }
+    },
+    pharaoh: {
+      title: '𓂀 PHARAOH’S FORTUNE', feature: 'Royal wilds • 3 pyramids open 8 tomb spins',
+      symbols: ['🏺','🐈','🐍','☀️','👑','💰','𓂀','🔺'], wild: '𓂀', scatter: '🔺',
+      accent: '#ffe068', glow: '#6d4500',
+      payouts: { '🏺':[3,7,17], '🐈':[4,9,22], '🐍':[5,12,29], '☀️':[6,17,42], '👑':[9,25,65], '💰':[13,40,110] }
+    },
+    volcano: {
+      title: '🌋 VOLCANO VAULT', feature: 'Eruption wilds • 3 volcanoes award 8 hot spins',
+      symbols: ['🪨','🔥','🌴','💎','🗿','👑','🌟','🌋'], wild: '🌟', scatter: '🌋',
+      accent: '#ff6b35', glow: '#7c1300',
+      payouts: { '🪨':[3,6,15], '🔥':[4,9,22], '🌴':[5,12,28], '💎':[6,17,40], '🗿':[9,26,64], '👑':[14,42,115] }
+    },
+    ocean: {
+      title: '🧜 OCEAN TREASURES', feature: 'Pearl wilds • 3 mermaids award 8 ocean spins',
+      symbols: ['🐚','🐠','🐬','🔱','💎','🐙','🫧','🧜'], wild: '🫧', scatter: '🧜',
+      accent: '#54f4df', glow: '#004d78',
+      payouts: { '🐚':[3,6,14], '🐠':[4,9,20], '🐬':[5,12,28], '🔱':[6,16,38], '💎':[9,25,62], '🐙':[13,38,100] }
+    },
+    disco: {
+      title: '🪩 DISCO DIAMONDS', feature: '2× disco wilds • 3 tickets award 8 free spins',
+      symbols: ['🎵','🕺','💃','⭐','💎','👑','🪩','🎟️'], wild: '🪩', scatter: '🎟️',
+      accent: '#ff65f2', glow: '#401078', wildMultiplier: 2,
+      payouts: { '🎵':[3,7,16], '🕺':[4,9,21], '💃':[5,12,28], '⭐':[6,17,42], '💎':[9,26,66], '👑':[14,44,120] }
     }
   };
 
@@ -42,7 +96,9 @@
 
   let gameKey = localStorage.getItem('rizzleModernGame') || 'juicy';
   if (!configs[gameKey]) gameKey = 'juicy';
-  const freeSpinsByGame = { juicy: 0, neon: 0, diamond: 0 };
+  let savedFreeSpins = {};
+  try { savedFreeSpins = JSON.parse(localStorage.getItem('rizzleFreeSpins') || '{}'); } catch (_) { savedFreeSpins = {}; }
+  const freeSpinsByGame = Object.fromEntries(Object.keys(configs).map(key => [key, Number(savedFreeSpins[key]) || 0]));
   let spinning = false;
   let grid = [];
 
@@ -55,6 +111,7 @@
   const setBalance = value => window.setRizzleBalance ? window.setRizzleBalance(value) : localStorage.setItem('rizzleBalance', String(value));
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   const random = values => values[Math.floor(Math.random() * values.length)];
+  const saveFreeSpins = () => localStorage.setItem('rizzleFreeSpins', JSON.stringify(freeSpinsByGame));
 
   function makeGrid(config) {
     const output = Array.from({length:5}, () => Array.from({length:3}, () => random(config.symbols)));
@@ -101,7 +158,7 @@
         for (let col = 0; col < count; col++) cells.add(`${col}-${line[col]}`);
       }
     });
-    if (gameKey === 'neon' && wildUsed && win > 0) win *= 2;
+    if ((gameKey === 'neon' || config.wildMultiplier === 2) && wildUsed && win > 0) win *= 2;
     return { win: Math.floor(win), cells };
   }
 
@@ -116,7 +173,9 @@
     const config = configs[gameKey];
     titleEl.textContent = config.title;
     featureEl.textContent = config.feature;
-    machine.className = `modern-machine ${config.className}`;
+    machine.className = `modern-machine ${config.className || 'theme-feature'}`;
+    machine.style.setProperty('--slot-accent', config.accent || '#ffd54a');
+    machine.style.setProperty('--slot-glow', config.glow || '#53135f');
     document.querySelectorAll('.slot-tab').forEach(tab => tab.classList.toggle('active', tab.dataset.slotGame === gameKey));
     grid = makeGrid(config);
     render();
@@ -137,7 +196,7 @@
       return;
     }
     if (!usingFreeSpin) setBalance(balance - bet);
-    else freeSpinsByGame[gameKey]--;
+    else { freeSpinsByGame[gameKey]--; saveFreeSpins(); }
     freeEl.textContent = freeSpinsByGame[gameKey];
     spinning = true;
     spinBtn.disabled = true;
@@ -150,8 +209,9 @@
     const scatters = scatterCount(config);
     if (result.win > 0) setBalance(getBalance() + result.win);
     if (scatters >= 3) {
-      const award = freeSpinsByGame[gameKey] > 0 || usingFreeSpin ? 5 : 8;
+      const award = freeSpinsByGame[gameKey] > 0 || usingFreeSpin ? 5 : (config.freeAward || 8);
       freeSpinsByGame[gameKey] += award;
+      saveFreeSpins();
       const lineWin = result.win > 0 ? ` + ${result.win.toLocaleString()} COINS` : '';
       statusEl.textContent = `🎉 ${scatters} SCATTERS! +${award} FREE SPINS${lineWin}`;
     } else if (result.win > 0) {
@@ -172,5 +232,16 @@
     document.getElementById('modernSlots')?.scrollIntoView({behavior:'smooth'});
   }));
   spinBtn.addEventListener('click', spin);
+  window.addRizzleFreeSpins = (key, count) => {
+    const target = configs[key] ? key : gameKey;
+    freeSpinsByGame[target] += Math.max(0, Number(count) || 0);
+    saveFreeSpins();
+    if (target === gameKey) {
+      freeEl.textContent = freeSpinsByGame[target];
+      spinBtn.textContent = 'FREE SPIN ✨';
+    }
+    return { game: target, total: freeSpinsByGame[target], title: configs[target].title };
+  };
+  window.getRizzleSlotGames = () => Object.keys(configs);
   updateGame(gameKey);
 })();

@@ -1,0 +1,20 @@
+.table-games { display:block; margin:20px auto 44px; }
+.table-game { width:min(680px,100%); margin:0 auto; padding:20px; border:2px solid #ffd54a; border-radius:24px; background:radial-gradient(circle at top,rgba(118,0,188,.35),transparent 48%),#13001e; box-shadow:0 14px 32px rgba(0,0,0,.3); }
+.table-game h2 { margin: 4px 0 14px; color: #fff; font-size: clamp(24px,5vw,34px); }
+.roulette-display { width: 132px; aspect-ratio:1; display:grid; place-items:center; margin: 10px auto 16px; border: 12px dotted #ffd54a; border-radius:50%; background:conic-gradient(#b90f35 0 10deg,#111 10deg 20deg,#b90f35 20deg 30deg,#111 30deg 40deg,#087c47 40deg 50deg,#111 50deg 60deg,#b90f35 60deg 70deg,#111 70deg 80deg,#b90f35 80deg 90deg,#111 90deg); position:relative; box-shadow:0 0 24px rgba(255,210,53,.22); }
+.roulette-display strong { width:60px; aspect-ratio:1; display:grid; place-items:center; border-radius:50%; background:#111; font-size:30px; }
+.roulette-display strong[data-colour="red"] { background:#b90f35; } .roulette-display strong[data-colour="green"] { background:#087c47; }
+.roulette-display span { position:absolute; top:-12px; color:#fff; font-size:24px; } .roulette-display span.rolling { animation:orbit .55s linear infinite; transform-origin:66px 78px; }
+.dice-display { min-height:130px; display:grid; place-items:center; font-size:72px; letter-spacing:10px; filter:drop-shadow(0 5px 9px #000); }
+.table-status { min-height:52px; display:grid; place-items:center; padding:10px; margin:12px 0; border:1px solid rgba(255,255,255,.1); border-radius:13px; background:rgba(0,0,0,.35); color:#fff4bf; text-align:center; font-weight:900; }
+.roulette-choices,.high-low-choices { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-bottom:12px; }
+.roulette-choices button,.high-low-choices button { min-height:42px; border:1px solid rgba(255,255,255,.2); border-radius:11px; background:#2b1038; color:#fff; font-weight:900; }
+.roulette-choices button[data-choice="red"] { background:#86102c; } .roulette-choices button[data-choice="black"] { background:#111; } .roulette-choices button[data-choice="green"] { background:#08623d; }
+.roulette-choices button.selected,.high-low-choices button.selected { outline:3px solid #ffde57; transform:translateY(-2px); }
+.table-controls { display:grid; grid-template-columns:1fr 1.5fr; gap:10px; align-items:end; }
+.table-controls label { display:grid; gap:5px; color:#cdbed6; font-size:11px; font-weight:900; }
+.table-controls > button { min-height:50px; border:0; border-radius:13px; background:linear-gradient(180deg,#fff17c,#f2a000); color:#260d00; font-size:17px; font-weight:1000; box-shadow:0 4px 0 #7d4000; }
+.table-disclaimer { grid-column:1/-1; margin:0; color:#a995b4; text-align:center; font-size:12px; }
+#rouletteCard,#highLowCard,.modern-game-card { cursor:pointer; }
+@keyframes orbit { to { rotate:360deg; } }
+@media(max-width:760px){ .table-games{grid-template-columns:1fr}.table-controls{grid-template-columns:1fr}.dice-display{font-size:58px} }
