@@ -36,6 +36,15 @@
     }, true);
   });
 
+  const logoHomeLink = document.querySelector('.logo-home-link');
+  if (logoHomeLink) {
+    logoHomeLink.addEventListener('click', event => {
+      event.preventDefault();
+      show(lobby);
+      window.history.replaceState(null, '', window.location.pathname);
+    });
+  }
+
   document.querySelectorAll('.back-lobby').forEach(button => {
     button.addEventListener('click', () => {
       const parent = button.closest('.machine,.modern-slots,.blackjack,.table-game,.instant-game');
